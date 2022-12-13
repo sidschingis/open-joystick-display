@@ -98,9 +98,7 @@ class RetroSpyDevice_GC_Box {
 			bufferIndex = this.buttonMap[buttonIndex];
 			if (buffer[bufferIndex] === '1') {
 				this.joystick.buttons[buttonIndex] = this.buttonOn;
-			} else {
-				this.joystick.buttons[buttonIndex] = this.buttonOff;
-			}
+			} 
 		}
 		
 
@@ -112,7 +110,12 @@ class RetroSpyDevice_GC_Box {
 			subLine = axisBuffer.slice(	bufferIndex + this.axisMapOffset, 
 										bufferIndex+this.axisMapOffset + this.axisMapByteLength
 										).join("");
-			this.joystick.axes[axisIndex] = this.readAxis(subLine, this.axisMapInverted[axisIndex]);
+			const value = this.readAxis(subLine, this.axisMapInverted[axisIndex]);
+			
+			if (!value) {
+				continue;
+			}
+			this.joystick.axes[axisIndex] = value;
 		}
 	}
 

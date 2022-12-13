@@ -97,6 +97,7 @@ class Joystick {
 	intervalCheckJoystick() {
 		this.checkMapping();
 		this.checkRaw();
+		this.getCurrentDriver().getDevice().resetJoystick();
 	}
 
 	checkRaw() {

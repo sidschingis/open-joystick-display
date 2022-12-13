@@ -119,6 +119,10 @@ class RetroSpyDriver {
 	isConnected() {
 		return this.joystickConnected;
 	}
+	
+	getDevice() {
+		return this.device;
+	}
 
 	getInformation() {
 		if (this.device && this.port) {

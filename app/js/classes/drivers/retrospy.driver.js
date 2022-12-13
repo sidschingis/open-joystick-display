@@ -7,6 +7,7 @@ const OJD 			= window.OJD;
 const {RetroSpyDevice_NES} 	= require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-nes.device.js'));
 const {RetroSpyDevice_SNES} = require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-snes.device.js'));
 const {RetroSpyDevice_SMASHBOX} = require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-smashbox.device.js'));
+const {RetroSpyDevice_GC_Box} 	= require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-gc-box.device.js'));
 const {RetroSpyDevice_GC} 	= require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-gc.device.js'));
 const {RetroSpyDevice_N64} 	= require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-n64.device.js'));
 const {RetroSpyDevice_PCE} 	= require(OJD.appendCwdPath('app/js/classes/drivers/retrospy/retrospy-pce.device.js'));
@@ -51,6 +52,7 @@ class RetroSpyDriver {
 			'nes':new RetroSpyDevice_NES(),
 			'snes':new RetroSpyDevice_SNES(),
 			'smashbox':new RetroSpyDevice_SMASHBOX(),
+			'gcbox':new RetroSpyDevice_GC_Box(),
 			'n64':new RetroSpyDevice_N64(),
 			'gc':new RetroSpyDevice_GC(),
 			'md':new RetroSpyDevice_MD(),
@@ -143,6 +145,7 @@ class RetroSpyDriver {
 			{value:'nes', label:'Nintendo Famicom (NES)'},
 			{value:'snes', label:'Nintendo Super Famicom (SNES)'},
 			{value:'smashbox', label:'Hit Box Smash Box'},
+			{value:'gcbox', label:'SmashBox GCC'},
 			{value:'n64', label:'Nintendo 64'},
 			{value:'gc', label:'Nintendo Gamecube'},
 			{value:'pce', label:'NEC PC-Engine / TurboGrafx-16'},

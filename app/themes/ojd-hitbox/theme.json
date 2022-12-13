@@ -8,6 +8,7 @@
 	"website":"https://ojdproject.com",
 	"styles":[
 		{"id":"hitbox-luberry", "name":"Luberry Hit Box UNIST", "file":"luberry/theme-unist.html", "cssroot":"luberry/", "mastercss":"theme-unist.css"},
-        {"id":"hitbox-luberry", "name":"Luberry Smash Box Ultimate", "file":"luberry/theme-smash.html", "cssroot":"luberry/", "mastercss":"theme-smash.css"}
+        {"id":"hitbox-luberry", "name":"Luberry Smash Box Ultimate", "file":"luberry/theme-smash.html", "cssroot":"luberry/", "mastercss":"theme-smash.css"},
+        {"id":"hitbox-luberry", "name":"Luberry Smash Box Ultimate 2", "file":"luberry/theme-smash-2.html", "cssroot":"luberry/", "mastercss":"theme-smash-2.css"}
 	]
 }

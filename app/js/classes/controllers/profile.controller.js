@@ -119,7 +119,9 @@ class ProfileController {
 			this.profiles.setProfileName(value);
 		} else if (key === 'driverUri'){
 			this.profiles.setProfileDriverUri(value);
-		} else {
+		} else if (key === 'driverNetPort'){
+			this.profiles.setProfileDriverNetPort(value);
+		}else {
 			return;
 		}
 
@@ -523,7 +525,7 @@ class ProfileController {
 
 		// Driver Menu
 		$driverMenu.val(profile.driver);
-		$driverUri.val(profile.driverUri);+
+		$driverUri.val(profile.driverUri);
         $playerDeviceMenu.val(this.profiles.getCurrentProfilePlayer());
 		$driverPortMenu.html('');
 		$driverDeviceMenu.html('');

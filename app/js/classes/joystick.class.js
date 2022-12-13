@@ -62,11 +62,12 @@ class Joystick {
 		const port = this.profiles.getCurrentProfileDriverPort();
 		const device = this.profiles.getCurrentProfileDriverDevice();
 		const uri = this.profiles.getCurrentProfileDriverUri();
+		const netPort = this.profiles.getCurrentProfileDriverNetPort();
 
         if (this.driver === 'chromium') {
             this.drivers[this.driver].player = this.profiles.getCurrentProfilePlayer();
         }
-		this.drivers[this.driver].setActive(port, device, uri);
+		this.drivers[this.driver].setActive(port, device, uri, netPort);
 	}
 
 	getSupportedPorts() {
@@ -247,7 +248,7 @@ class Joystick {
                 if (trigger.invert) {
                     scale = 100 - scale;
                 }
-                
+
                 let degrees = trigger.degrees || trigger.degrees == 0 ? trigger.degrees : 0;
                 let degreesScale = 0;
 
@@ -270,6 +271,7 @@ class Joystick {
 				$(`*[ojd-trigger='${i}']`).addClass('trigger-active');
 
 				if (trigger.button) {
+					multimapCheck.push(trigger.button);
 					$(`*[ojd-button='${trigger.button}']`).addClass('active');
 				}
 
@@ -296,7 +298,7 @@ class Joystick {
 			const trigger = currentMapping.triggerFixed[i];
 			const active = this.checkFixedTrigger(trigger.axis, trigger.val);
 
-            
+
 
 			if (active) {
 
@@ -480,7 +482,7 @@ class Joystick {
 	}
 
 	checkAnalog(axisIndex1, axisIndex2, deadzone, hasInfinity=false, invertX=false, invertY=false) {
-		
+
 		const joystick = this.getCurrentDriver().getJoystick();
 		let axis1 = joystick.axes[axisIndex1];
 		let axis2 = joystick.axes[axisIndex2];
@@ -514,7 +516,7 @@ class Joystick {
 
 		let x = (axis1 < deadzone*-1 || axis1 > deadzone) ? axis1 : 0;
 		let y = (axis2 < deadzone*-1 || axis2 > deadzone) ? axis2 : 0;
-		
+
 		offset.xRaw = axis1;
 		offset.yRaw = axis2;
 
@@ -529,7 +531,7 @@ class Joystick {
 		} else {
 			offset.y = 50 + (y*50);
 		}
-		
+
 		return offset;
 
 	}

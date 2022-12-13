@@ -26,11 +26,13 @@ class NetworkDriver {
 
 	}
 
-	setActive(physticalPort, physicalDevice, networkHost) {
+	setActive(physticalPort, physicalDevice, networkHost, networkPort) {
 
 		this.host = networkHost;
 		this.driverActive = true;
 		this.socket = new JSONSocket(new net.Socket());
+		
+		this.port 		= networkPort ? networkPort : 56709; 
 
         this.socket.on('error', function(err){
             console.warn(`Socket Error: ${err.message}`);

@@ -193,6 +193,10 @@ class Profiles {
 	getCurrentProfileDriverUri() {
 		return this.profile.driverUri;
 	}
+	
+	getCurrentProfileDriverNetPort() {
+		return this.profile.driverNetPort;
+	}
 
 	/*
 	 * getProfile(id)
@@ -276,6 +280,18 @@ class Profiles {
 	 */
 	setProfileDriverUri(uri) {
 		this.profile.driverUri = uri;
+		this.saveCurrent();
+	}
+	
+
+	/*
+	 * setProfileDriverNetPort(port)
+	 * @param string port
+	 * @return NULL
+	 * Sets the selected profile driver net port.
+	 */
+	setProfileDriverNetPort(port) {
+		this.profile.driverNetPort = port;
 		this.saveCurrent();
 	}
 

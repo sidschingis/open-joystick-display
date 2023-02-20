@@ -153,22 +153,18 @@ class Joystick {
             return false;
         }
 
+        // Reset classes
+        $('.active').removeClass('active');
+
         const currentMapping = this.profiles.getCurrentProfileMapping();
         const currentButtonMapping = currentMapping.button;
 
         // Check Buttons
-        const multimapCheck = []; // In case a single button is mapped to multiple physical buttons.
         for (const k of currentButtonMapping) {
             const pressed = this.checkButtonPressed(k.index);
             if (pressed) {
-                multimapCheck.push(k.button);
                 $(`*[ojd-button='${k.button}']`).addClass('active');
                 $(`*[ojd\\:button='${k.button}']`).addClass('active');
-            } else {
-                if (!multimapCheck.includes(k.button)) {
-                    $(`*[ojd-button='${k.button}']`).removeClass('active');
-                    $(`*[ojd\\:button='${k.button}']`).removeClass('active');
-                }
             }
         }
 
@@ -178,8 +174,6 @@ class Joystick {
         $(`*[ojd-arcade-directional]`).css('left', `${arcadeOffset.x}%`);
         if (arcadeOffset.x !== 50 || arcadeOffset.y !== 50) {
             $(`*[ojd-arcade-directional]`).addClass('active');
-        } else {
-            $(`*[ojd-arcade-directional]`).removeClass('active');
         }
 
         // Check Directional Pad
@@ -201,8 +195,6 @@ class Joystick {
             // Allow for highlighting.
             if (offset.x !== 50 || offset.y !== 50) {
                 $(`*[ojd-directional='${i}']`).addClass('active');
-            } else {
-                $(`*[ojd-directional='${i}']`).removeClass('active');
             }
 
             // Is axes support to function like a dpad?
@@ -212,11 +204,6 @@ class Joystick {
                     if (pressed) {
                         $(`*[ojd-button='${d}']`).addClass('active');
                         $(`*[ojd\\:button='${d}']`).addClass('active');
-                    } else {
-                        if (!multimapCheck.includes(d)) {
-                            $(`*[ojd-button='${d}']`).removeClass('active');
-                            $(`*[ojd\\:button='${d}']`).removeClass('active');
-                        }
                     }
                 }
             }
@@ -227,10 +214,6 @@ class Joystick {
                     const pressed = this.checkDirectionPressed(axisIndex1, axisIndex2, deadzone, d, hasInfinity);
                     if (pressed) {
                         $(`*[ojd-button='${d}']`).addClass('active');
-                    } else {
-                        if (!multimapCheck.includes(d)) {
-                            $(`*[ojd-button='${d}']`).removeClass('active');
-                        }
                     }
                 }
             }
@@ -272,7 +255,6 @@ class Joystick {
                 $(`*[ojd-trigger='${i}']`).addClass('trigger-active');
 
                 if (trigger.button) {
-                    multimapCheck.push(trigger.button);
                     $(`*[ojd-button='${trigger.button}']`).addClass('active');
                 }
 
@@ -284,12 +266,6 @@ class Joystick {
                 $(`*[ojd-trigger-move-inverted='${i}']`).css('top', ``);
                 $(`*[ojd-trigger-wheel='${i}']`).css('transform', ``);
                 $(`*[ojd-trigger='${i}']`).removeClass('trigger-active');
-
-                if (trigger.button) {
-                    if (!multimapCheck.includes(trigger.button)) {
-                        $(`*[ojd-button='${trigger.button}']`).removeClass('active');
-                    }
-                }
             }
 
         }
@@ -304,28 +280,13 @@ class Joystick {
             if (active) {
 
                 if (trigger.button1) {
-                    multimapCheck.push(trigger.button1);
                     $(`*[ojd-button='${trigger.button1}']`).addClass('active');
                     fixedTriggerDir.push(trigger.button1);
                 }
 
                 if (trigger.button2) {
-                    multimapCheck.push(trigger.button2);
                     $(`*[ojd-button='${trigger.button2}']`).addClass('active');
                     fixedTriggerDir.push(trigger.button2);
-                }
-
-            } else {
-                if (trigger.button1) {
-                    if (!multimapCheck.includes(trigger.button1)) {
-                        $(`*[ojd-button='${trigger.button1}']`).removeClass('active');
-                    }
-                }
-
-                if (trigger.button2) {
-                    if (!multimapCheck.includes(trigger.button2)) {
-                        $(`*[ojd-button='${trigger.button2}']`).removeClass('active');
-                    }
                 }
 
             }
@@ -335,8 +296,6 @@ class Joystick {
         const fixedTriggerOffset = this.checkTriggerArcadeStick(fixedTriggerDir);
         if (fixedTriggerOffset.x !== 50 || fixedTriggerOffset.y !== 50) {
             $(`*[ojd-arcade-directional]`).addClass('active');
-        } else {
-            $(`*[ojd-arcade-directional]`).removeClass('active');
         }
 
         // All directionals are treated like analogs regardless

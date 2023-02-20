@@ -131,8 +131,9 @@ class Joystick {
             offset = this.checkAnalog(axis1, axis2, 0);
             $(`span[ojd-raw-analog-axes-x='${i}']`).html(axis1);
             $(`span[ojd-raw-analog-axes-y='${i}']`).html(axis2);
-            $(`*[ojd-raw-analog='${i}']`).css('top', `${offset.y}%`);
-            $(`*[ojd-raw-analog='${i}']`).css('left', `${offset.x}%`);
+            $(`*[ojd-raw-analog='${i}']`)
+                .css('top', `${offset.y}%`)
+                .css('left', `${offset.x}%`);
             $(`*[ojd-raw-analog-x='${i}']`).val(offset.xRaw.toFixed(4));
             $(`*[ojd-raw-analog-y='${i}']`).val(offset.yRaw.toFixed(4));
         }
@@ -169,10 +170,9 @@ class Joystick {
 
         // Check for Arcade Stick
         const arcadeOffset = this.checkArcadeStick(currentButtonMapping);
-        $(`*[ojd-arcade-directional]`).css('top', `${arcadeOffset.y}%`);
-        $(`*[ojd-arcade-directional]`).css('left', `${arcadeOffset.x}%`);
+        const arcadeElements = $(`*[ojd-arcade-directional]`);
         if (arcadeOffset.x !== 50 || arcadeOffset.y !== 50) {
-            $(`*[ojd-arcade-directional]`).addClass('active');
+            arcadeElements.addClass('active');
         }
 
         // Check Directional Pad
@@ -188,8 +188,9 @@ class Joystick {
             const offset = this.checkAnalog(axisIndex1, axisIndex2, deadzone, hasInfinity, invertX, invertY);
 
             // All directionals are treated like analogs regardless
-            $(`*[ojd-directional='${i}']`).css('top', `${offset.y}%`);
-            $(`*[ojd-directional='${i}']`).css('left', `${offset.x}%`);
+            $(`*[ojd-directional='${i}']`)
+                .css('top', `${offset.y}%`)
+                .css('left', `${offset.x}%`);
 
             // Allow for highlighting.
             if (offset.x !== 50 || offset.y !== 50) {
@@ -293,13 +294,13 @@ class Joystick {
 
         const fixedTriggerOffset = this.checkTriggerArcadeStick(fixedTriggerDir);
         if (fixedTriggerOffset.x !== 50 || fixedTriggerOffset.y !== 50) {
-            $(`*[ojd-arcade-directional]`).addClass('active');
+            arcadeElements.addClass('active');
         }
 
         // All directionals are treated like analogs regardless
-        $(`*[ojd-arcade-directional]`).css('top', `${fixedTriggerOffset.y}%`);
-        $(`*[ojd-arcade-directional]`).css('left', `${fixedTriggerOffset.x}%`);
-
+        arcadeElements
+            .css('top', `${fixedTriggerOffset.y}%`)
+            .css('left', `${fixedTriggerOffset.x}%`);
     }
 
 

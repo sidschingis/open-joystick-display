@@ -168,13 +168,6 @@ class Joystick {
             }
         }
 
-        // Check for Arcade Stick
-        const arcadeOffset = this.checkArcadeStick(currentButtonMapping);
-        const arcadeElements = $(`*[ojd-arcade-directional]`);
-        if (arcadeOffset.x !== 50 || arcadeOffset.y !== 50) {
-            arcadeElements.addClass('active');
-        }
-
         // Check Directional Pad
         for (const i in currentMapping.directional) {
 
@@ -291,6 +284,20 @@ class Joystick {
             }
         }
 
+        // Check for Arcade Stick
+        this.updateArcadeStick(currentButtonMapping, fixedTriggerDir);
+    }
+
+    updateArcadeStick(currentButtonMapping, fixedTriggerDir) {
+        const arcadeElements = $(`*[ojd-arcade-directional]`);
+        if (arcadeElements.length == 0) {
+            return;
+        }
+
+        const arcadeOffset = this.checkArcadeStick(currentButtonMapping);
+        if (arcadeOffset.x !== 50 || arcadeOffset.y !== 50) {
+            arcadeElements.addClass('active');
+        }
 
         const fixedTriggerOffset = this.checkTriggerArcadeStick(fixedTriggerDir);
         if (fixedTriggerOffset.x !== 50 || fixedTriggerOffset.y !== 50) {
@@ -303,38 +310,7 @@ class Joystick {
             .css('left', `${fixedTriggerOffset.x}%`);
     }
 
-
-    checkTriggerArcadeStick(direction) {
-
-        const offset = { x: 0, y: 0, xRaw: 0, yRaw: 0 };
-
-        for (const dir of direction) {
-            switch (dir) {
-                case "UP":
-                    offset.yRaw = -1;
-                    break;
-                case "DOWN":
-                    offset.yRaw = 1;
-                    break;
-                case "LEFT":
-                    offset.xRaw = -1;
-                    break;
-                case "RIGHT":
-                    offset.xRaw = 1;
-                    break;
-            }
-        }
-
-        offset.x = 50 + (offset.xRaw * 50);
-        offset.y = 50 + (offset.yRaw * 50);
-
-        return offset;
-
-    }
-
-
     checkArcadeStick(buttonMapping) {
-
         const joystick = this.getCurrentDriver().getJoystick();
 
         const buttons = {
@@ -405,6 +381,35 @@ class Joystick {
             offset.yRaw = 1;
         } else if (active.RIGHT) {
             offset.xRaw = 1;
+        }
+
+        offset.x = 50 + (offset.xRaw * 50);
+        offset.y = 50 + (offset.yRaw * 50);
+
+        return offset;
+
+    }
+
+
+    checkTriggerArcadeStick(direction) {
+
+        const offset = { x: 0, y: 0, xRaw: 0, yRaw: 0 };
+
+        for (const dir of direction) {
+            switch (dir) {
+                case "UP":
+                    offset.yRaw = -1;
+                    break;
+                case "DOWN":
+                    offset.yRaw = 1;
+                    break;
+                case "LEFT":
+                    offset.xRaw = -1;
+                    break;
+                case "RIGHT":
+                    offset.xRaw = 1;
+                    break;
+            }
         }
 
         offset.x = 50 + (offset.xRaw * 50);

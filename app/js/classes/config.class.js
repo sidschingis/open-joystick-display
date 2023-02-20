@@ -24,19 +24,14 @@ class Config {
         // Make new config if one doesn't exist.
         this.init();
 
-        // If config version 0, migrate.
-        this.migrateConfigZero();
-
-        // If config version 1, migrate.
-        this.migrateConfigOne();
-
-        // If config version 2, migrate.
-        this.migrateConfigTwo();
-
-        // If config version 3, migrate.
-        this.migrateConfigThree();
-
-
+        const currentVersion = 4;
+        for (var version = 0; version < currentVersion; version++) {
+            if (version == 0) {
+                this.migrateConfigV0();
+                continue;
+            }
+            this.migrateConfig(version);
+        }
     }
 
     /*
@@ -72,82 +67,49 @@ class Config {
         return true;
     }
 
-    migrateConfigThree() {
-
-        if (this.config.version !== 3) {
+    migrateConfig(version) {
+        if (this.config.version !== version) {
             return false;
         }
 
-        const newMappings = require(OJD.appendCwdPath('app/js/data/mappings-v4.json'));
+        const newVersion = version++;
         const mappings = this.store.get('mappings');
-        for (const map of newMappings) {
-            mappings.push(map);
-        }
-        for (const map of mappings) {
-            map.triggerFixed = [];
-        }
+
+        this.versionSpecificUpgrade(version, mappings);
+
         this.store.set('mappings', mappings);
 
         // Set Config to Version 4
-        this.config.version = 4;
+        this.config.version = newVersion;
         this.store.set('config', this.config);
 
         // Reload
         this.config = this.store.get('config');
-
     }
 
-    migrateConfigTwo() {
-
-        if (this.config.version !== 2) {
-            return false;
+    versionSpecificUpgrade(version, mappings) {
+        switch (version) {
+            case 3:
+            case 2:
+                this.addNewMappings(version, mappings);
+                for (const map of mappings) {
+                    map.triggerFixed = [];
+                }
+                break;
+            case 1:
+                this.addNewMappings(version, mappings);
+                break;
         }
+    }
 
-        const newMappings = require(OJD.appendCwdPath('app/js/data/mappings-v3.json'));
-        const mappings = this.store.get('mappings');
+    addNewMappings(version, mappings) {
+        const newVersion = version++;
+        const path = 'app/js/data/mappings-v' + newVersion + '.json';
+        const newMappings = require(OJD.appendCwdPath());
+
         for (const map of newMappings) {
             mappings.push(map);
         }
-        for (const map of mappings) {
-            map.triggerFixed = [];
-        }
-        this.store.set('mappings', mappings);
-
-        // Set Config to Version 2
-        this.config.version = 3;
-        this.store.set('config', this.config);
-
-        // Reload
-        this.config = this.store.get('config');
-
-    }
-
-    /*
-     * migrateConfigOne()
-     * @return bool
-     * Migrates config version 1 to version 2. Adds new default mappings for RetroSpy.
-     */
-    migrateConfigOne() {
-
-        if (this.config.version !== 1) {
-            return false;
-        }
-
-        // Push new mappings for this release.
-        const newMappings = require(OJD.appendCwdPath('app/js/data/mappings-v2.json'));
-        const mappings = this.store.get('mappings');
-        for (const map of newMappings) {
-            mappings.push(map);
-        }
-        this.store.set('mappings', mappings);
-
-        // Set Config to Version 2
-        this.config.version = 2;
-        this.store.set('config', this.config);
-
-        // Reload
-        this.config = this.store.get('config');
-
     }
 
     /*
@@ -155,7 +117,7 @@ class Config {
      * @return bool
      * Migrates config version 0 to version 1. Separates mappings and profile from core config for easy backups.
      */
-    migrateConfigZero() {
+    migrateConfigV0() {
 
         if (this.config.version !== 0) {
             return false;

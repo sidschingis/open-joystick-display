@@ -164,7 +164,6 @@ class Joystick {
             const pressed = this.checkButtonPressed(k.index);
             if (pressed) {
                 $(`*[ojd-button='${k.button}']`).addClass('active');
-                $(`*[ojd\\:button='${k.button}']`).addClass('active');
             }
         }
 
@@ -203,7 +202,6 @@ class Joystick {
                     const pressed = this.checkDirectionPressed(axisIndex1, axisIndex2, deadzone, d, hasInfinity);
                     if (pressed) {
                         $(`*[ojd-button='${d}']`).addClass('active');
-                        $(`*[ojd\\:button='${d}']`).addClass('active');
                     }
                 }
             }

@@ -106,6 +106,10 @@ class Joystick {
             return false;
         }
 
+        if (this.config.config.broadcast) {
+            return false;
+        }
+
         // Buttons
         const joystick = this.getCurrentDriver().getJoystick();
         for (const i in joystick.buttons) {
